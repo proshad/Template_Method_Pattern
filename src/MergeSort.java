@@ -2,64 +2,56 @@ import java.util.Arrays;
 
 /**
  * Created by proshad on 9/21/16.
+ * take help from https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/p/challenge-implement-merge
  */
 public class MergeSort extends SortTemplatePattern {
-    public MergeSort(int[] sampleInput) {
+    public MergeSort() {
         System.out.println("Using merge sort:");
-        super.setArrSorted(sampleInput);
-        System.out.println("Before sorting");
-        System.out.println(Arrays.toString(arrSorted));
     }
-
 
 
     @Override
-    void divideAndConquer(int[] array, int left, int right) {
+    int divide(int[] array, int left, int right) {
 
-        if (left < right) {
-
-            int center = (left + right) / 2;
-
-            //sort the left and right array
-            divideAndConquer(array, left, center);
-            divideAndConquer(array, center + 1, right);
-
-            //merge the result
-            merge(array, left, center + 1, right);
-        }
+        int center = (left + right) / 2;
+        return center;
     }
 
-    void merge(int[] array, int leftArrayBegin, int rightArrayBegin, int rightArrayEnd) {
+    @Override
+    void merge(int[] array, int left, int center, int right) {
 
-        int leftArrayEnd = rightArrayBegin - 1;
+        int firstArrSize = center - left + 1;
+        int[] lowHalf = new int[firstArrSize];
+        int secondArrSize = right - center;
+        int[] highHalf = new int[secondArrSize];
 
-        int numElements = rightArrayEnd - leftArrayBegin + 1;
-        this.arrSorted = new int[numElements];
-        int resultArrayBegin = 0;
+        int i, j, k = left;
+        for (i = 0; k <= center; i++, k++) {
+            lowHalf[i] = array[k];
+        }
+        for (j = 0; k <= right; j++, k++) {
+            highHalf[j] = array[k];
+        }
 
-        // Find the smallest element in both these array and add it to the result array
-        while (leftArrayBegin <= leftArrayEnd && rightArrayBegin <= rightArrayEnd) {
-            if (array[leftArrayBegin] <= array[rightArrayBegin]) {
-                this.arrSorted[resultArrayBegin++] = array[leftArrayBegin++];
+        k = left;
+        i = 0;
+        j = 0;
+
+
+        while (i < lowHalf.length && j < highHalf.length) {
+            if (lowHalf[i] < highHalf[j]) {
+                array[k++] = lowHalf[i++];
             } else {
-                this.arrSorted[resultArrayBegin++] = array[rightArrayBegin++];
+                array[k++] = highHalf[j++];
             }
         }
-
-        // After the main loop completed we may have few more elements in left array copy them.
-        while (leftArrayBegin <= leftArrayEnd) {
-            this.arrSorted[resultArrayBegin++] = array[leftArrayBegin++];
+        while (i < lowHalf.length) {
+            array[k++] = lowHalf[i++];
+        }
+        while (j < highHalf.length) {
+            array[k++] = highHalf[j++];
         }
 
-        // After the main loop completed we may have few more elements in right array copy.
-        while (rightArrayBegin <= rightArrayEnd) {
-            this.arrSorted[resultArrayBegin++] = array[rightArrayBegin++];
-        }
-
-        // Copy this.arrSorted back to the main array
-        for (int i = numElements - 1; i >= 0; i--, rightArrayEnd--) {
-            array[rightArrayEnd] = this.arrSorted[i];
-        }
     }
 
 }

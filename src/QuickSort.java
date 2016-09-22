@@ -2,50 +2,38 @@ import java.util.Arrays;
 
 /**
  * Created by proshad on 9/21/16.
+ *
+ * algorithm from https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/p/challenge-implement-partition
  */
+
 public class QuickSort extends SortTemplatePattern {
-    public QuickSort(int[] sampleInput) {
-        System.out.println("Using quick sort:");
-        super.setArrSorted(sampleInput);
-        System.out.println("Before sorting");
-        System.out.println(Arrays.toString(arrSorted));
+    public QuickSort() {
+        System.out.println("Using quicksort:");
     }
 
 
     @Override
-    void divideAndConquer(int[] arrSorted, int low, int high) {
-        int i = low, j = high;
-        int pivot = arrSorted[low + (high - low) / 2];
-
-        // Divide into two lists
-        while (i <= j) {
-            // If current value from left list is smaller then the pivot, get next element from left list
-            while (arrSorted[i] < pivot) {
-                i++;
-            }
-            // If current value from right list is larger then the pivot, get next element from right list
-            while (arrSorted[j] > pivot) {
-                j--;
-            }
-
-            // If a values in left list is larger then pivot & a value in right list is smaller then pivot, exchange the values.
-            // As we are done we can increase i and j
-            if (i <= j) {
-                exchange(i, j);
-                i++;
-                j--;
+    int divide(int[] array, int left, int right) {
+        for (int i = left; i < right; i++) {
+            if (array[i] <= array[right]) {
+                swap(array, i, left);
+                left++;
             }
         }
-        // Recursion
-        if (low < j)
-            divideAndConquer(arrSorted, low, j);
-        if (i < high)
-            divideAndConquer(arrSorted, i, high);
+        swap(array, right, left);
+        return left;
+
+    }
+    @Override
+    void merge(int[] array, int left, int center, int right) {
+        // in quick sort, no need to merge as merge taken place in parallel with dividing steps
     }
 
-    private void exchange(int i, int j) {
-        int temp = arrSorted[i];
-        arrSorted[i] = arrSorted[j];
-        arrSorted[j] = temp;
+    private void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
+
+
 }

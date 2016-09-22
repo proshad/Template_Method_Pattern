@@ -5,24 +5,17 @@ import java.util.Arrays;
  */
 public abstract class SortTemplatePattern {
 
-    public int[] arrSorted;
-
     // template method
-    public final void sort() {
-
-        divideAndConquer(arrSorted, 0, this.arrSorted.length - 1);
-        showSortedData();
+    public final void sort(int[] array, int low, int high) {
+        if (low < high) {
+            int q = divide(array, low, high);
+            sort(array, low, q - 1);
+            sort(array, q + 1, high);
+            merge(array, low, q, high);
+        }
     }
 
-    abstract void divideAndConquer(int[] arrSorted, int low, int high);
-
-    public void showSortedData() {
-        System.out.println("After sorting");
-        System.out.println(Arrays.toString(arrSorted));
-    }
-
-    public void setArrSorted(int[] tempData) {
-        this.arrSorted = tempData;
-    }
+    abstract int divide(int[] array, int left, int right);
+    abstract void merge(int[] array, int left, int center, int right);
 
 }
