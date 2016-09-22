@@ -11,32 +11,25 @@ public class MergeSort extends SortTemplatePattern {
         System.out.println(Arrays.toString(arrSorted));
     }
 
-    @Override
-    int divide(int left, int right) {
-        //split the array into 2
-        int center = (left + right) / 2;
-        return center;
-    }
+
 
     @Override
-    void conquer(int[] array, int left, int right) {
+    void divideAndConquer(int[] array, int left, int right) {
 
         if (left < right) {
 
-            int center = divide(left, right);
+            int center = (left + right) / 2;
 
             //sort the left and right array
-            conquer(array, left, center);
-            conquer(array, center + 1, right);
+            divideAndConquer(array, left, center);
+            divideAndConquer(array, center + 1, right);
 
-            //combine the result
-            combine(array, left, center + 1, right);
+            //merge the result
+            merge(array, left, center + 1, right);
         }
     }
 
-
-    @Override
-    void combine(int[] array, int leftArrayBegin, int rightArrayBegin, int rightArrayEnd) {
+    void merge(int[] array, int leftArrayBegin, int rightArrayBegin, int rightArrayEnd) {
 
         int leftArrayEnd = rightArrayBegin - 1;
 

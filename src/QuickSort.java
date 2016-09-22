@@ -11,17 +11,11 @@ public class QuickSort extends SortTemplatePattern {
         System.out.println(Arrays.toString(arrSorted));
     }
 
-    @Override
-    int divide(int low, int high) {
-        // Get the pivot element from the middle of the list
-        int pivot = arrSorted[low + (high - low) / 2];
-        return pivot;
-    }
 
     @Override
-    void conquer(int[] arrSorted, int low, int high) {
+    void divideAndConquer(int[] arrSorted, int low, int high) {
         int i = low, j = high;
-        int pivot = divide(low, high);
+        int pivot = arrSorted[low + (high - low) / 2];
 
         // Divide into two lists
         while (i <= j) {
@@ -44,16 +38,10 @@ public class QuickSort extends SortTemplatePattern {
         }
         // Recursion
         if (low < j)
-            conquer(arrSorted, low, j);
+            divideAndConquer(arrSorted, low, j);
         if (i < high)
-            conquer(arrSorted, i, high);
+            divideAndConquer(arrSorted, i, high);
     }
-
-    @Override
-    void combine(int[] array, int leftArrayBegin, int rightArrayBegin, int rightArrayEnd) {
-// No need. Once the conquer step recursively sorts, we are done
-    }
-
 
     private void exchange(int i, int j) {
         int temp = arrSorted[i];
